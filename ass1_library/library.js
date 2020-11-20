@@ -20,7 +20,7 @@ function Book(data) {
     this.getBookInfo = () => {
         let printData = "";
         for (const [key, value] of Object.entries(columns)) {
-            printData += value + (data[key] == null ? "" : data[key]) + "\n";
+            printData += value + (data[key] === null ? "" : data[key]) + "\n";
         }
         console.log(printData);
         console.log("-----");
