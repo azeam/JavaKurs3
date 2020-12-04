@@ -34,7 +34,6 @@ function initInput() {
   input = document.createElement("input");
   input.required = true;
   form.appendChild(input);
-  defaultBorder = input.style.border;
   //create input element and set it to be requried (TIP: use .required = true).
   //Add it to the form element. (TIP: use .appendChild).
 }
