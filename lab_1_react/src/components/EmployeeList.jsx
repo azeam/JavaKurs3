@@ -9,9 +9,10 @@ function EmployeeList() {
     let [blur, setBlur] = useState("");
     let [oldEmployee, setOldEmployee] = useState(null);
 
-    const showFormToggle = (data, index) => {
+    function showFormToggle(data, index) {
         setShowForm(!showForm);
         blur === "" ? setBlur("blur") : setBlur("");   
+        // set data to pass to form if editing, add index to object
         if (data && index !== undefined) {
             data["index"] = index;
             setOldEmployee(data);    
@@ -25,6 +26,7 @@ function EmployeeList() {
         if (data.avatar === "") {
             data.avatar = defaultAvatar;
         }
+        // if index is not set, save as new, otherwise update
         if (data.index === "") {
             setData((prevState) => {
                 return [...prevState, data];
@@ -48,15 +50,17 @@ function EmployeeList() {
         });
     }
 
+    // get local storage data on first render
     useEffect(() => {
         let data = localStorage.getItem("employeeData");
         if (data) {
             setData(JSON.parse(data));
         }
-    }, []); // only after first render
+    }, []);
 
+    // save data to localStorage when data is changed
     useEffect(() => {
-        localStorage.setItem("employeeData", JSON.stringify(employeeData)); // save data to localStorage when data is changed
+        localStorage.setItem("employeeData", JSON.stringify(employeeData)); 
     }, [employeeData]);
 
     return (

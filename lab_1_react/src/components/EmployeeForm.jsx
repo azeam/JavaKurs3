@@ -9,8 +9,8 @@ function EmployeeForm(props) {
     }
 
     useEffect(() => {
+        // fill form fields if data is set (edit)
         if (props.data) {
-            console.log(props.data);
             Object.entries(props.data).map((kvPair) => setValue(kvPair[0], kvPair[1])); 
         } 
     }, [props.data, setValue]);
@@ -40,7 +40,7 @@ function EmployeeForm(props) {
                     <input ref={register} type="text" name="avatar" />
                 </label><br />
 
-                <input className="hidden" ref={register} type="text" name="index" />
+                <input ref={register} type="hidden" name="index" />
                 
                 <input className="button" type="submit" value="Save" />
             </form>
