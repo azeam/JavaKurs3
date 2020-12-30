@@ -1,45 +1,51 @@
 import Employee from "./Employee";
 import EmployeeForm from "./EmployeeForm";
 import { useState, useEffect } from "react";
+import { defaultAvatar, baseData } from "../basedata/BaseData";
 
 function EmployeeList() {
-
-    const baseData = [{
-        name: "test",
-        email: "test@test.com",
-        phone: "456",
-        skills: "hacker",
-        avatar: "https://i.imgur.com/ebHfuth.png",
-    },
-    {
-        name: "test2",
-        email: "test2@test.com",
-        phone: "321",
-        skills: "pretty",
-        avatar: "https://i.imgur.com/TUhCrsY.png",
-    },
-    {
-        name: "test3",
-        email: "test3@test.com",
-        phone: "123",
-        skills: "none, completely useless",
-        avatar: "https://i.imgur.com/t9HFQvX.png",
-    }];
-
     let [employeeData, setData] = useState(baseData);
     let [showForm, setShowForm] = useState(false);
     let [blur, setBlur] = useState("");
+    let [oldEmployee, setOldEmployee] = useState(null);
 
-    const showFormToggle = () => {
+    const showFormToggle = (data, index) => {
         setShowForm(!showForm);
-        blur === "" ? setBlur("blur") : setBlur("");
+        blur === "" ? setBlur("blur") : setBlur("");   
+        if (data && index !== undefined) {
+            data["index"] = index;
+            setOldEmployee(data);    
+        }
+        else {
+            setOldEmployee(null);
+        }
     }
 
-    function addEmployee(data) {
-        setData((prevState) => {
-            return [...prevState, data];
-        })
+    function addUpdateEmployee(data) {
+        if (data.avatar === "") {
+            data.avatar = defaultAvatar;
+        }
+        if (data.index === "") {
+            setData((prevState) => {
+                return [...prevState, data];
+            });   
+        }
+        else {
+            setData((prevState) => {
+                const prevStateCopy = [...prevState];    
+                prevStateCopy[data.index] = data;
+                return [...prevStateCopy];
+            });
+        }
         showFormToggle();
+    }
+
+    function deleteEmployee(index) {
+        setData((prevState) => {
+            const prevStateCopy = [...prevState];    
+            prevStateCopy.splice(index, 1);
+            return [...prevStateCopy];
+        });
     }
 
     useEffect(() => {
@@ -55,12 +61,12 @@ function EmployeeList() {
 
     return (
         <div className={blur}>
-            { showForm ? <EmployeeForm onSubmit={addEmployee} onExit={showFormToggle} /> : null }
-            <button onClick={showFormToggle} className="button">Add Employee</button>
+            { showForm ? <EmployeeForm data={oldEmployee} onSubmit={addUpdateEmployee} onExit={showFormToggle} /> : null }
+            <button onClick={() => showFormToggle(null)} className="button">Add Employee</button>
             <div>
                 {
                     employeeData.map((employee, i) => {
-                        return <Employee key={i} employeeData={employee} />;
+                        return <Employee key={i} employeeData={employee} onEdit={() => showFormToggle(employee, i)} onDelete={() => deleteEmployee(i)} />;
                     })
                 }
             </div>
