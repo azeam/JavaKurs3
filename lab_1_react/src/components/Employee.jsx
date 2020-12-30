@@ -1,5 +1,4 @@
 function Employee({ employeeData }) {
-    console.log({ employeeData });
     return (
     <div className="EmployeeDiv">
         <img className="avatar" alt="avatar" src={employeeData.avatar}></img>

@@ -1,44 +1,39 @@
 import Employee from "./Employee";
-import { useState, useRef, useEffect } from "react";
+import EmployeeForm from "./EmployeeForm";
+import { useState, useEffect } from "react";
 
 function EmployeeList() {
 
-    let [employeeData, setData] = useState([{
-            name: "test",
-            email: "test@test.com",
-            phone: "456",
-            skills: "hacker",
-            avatar: "https://i.imgur.com/ebHfuth.png",
-        },
-        {
-            name: "test2",
-            email: "test2@test.com",
-            phone: "321",
-            skills: "pretty",
-            avatar: "https://i.imgur.com/TUhCrsY.png",
-        },
-        {
-            name: "test3",
-            email: "test3@test.com",
-            phone: "123",
-            skills: "none, completely useless",
-            avatar: "https://i.imgur.com/t9HFQvX.png",
-        }
-       ]);
-    let userInput = useRef();
+    const baseData = [{
+        name: "test",
+        email: "test@test.com",
+        phone: "456",
+        skills: "hacker",
+        avatar: "https://i.imgur.com/ebHfuth.png",
+    },
+    {
+        name: "test2",
+        email: "test2@test.com",
+        phone: "321",
+        skills: "pretty",
+        avatar: "https://i.imgur.com/TUhCrsY.png",
+    },
+    {
+        name: "test3",
+        email: "test3@test.com",
+        phone: "123",
+        skills: "none, completely useless",
+        avatar: "https://i.imgur.com/t9HFQvX.png",
+    }];
 
-    function addEmployee() {
-        let dataInput = userInput.current.value;
-        console.log(dataInput);
-        let newEmployee = {
-            name: "test4",
-            email: "test4@test.com",
-            phone: "911",
-            skills: "beard",
-            avatar: "https://i.imgur.com/Q9qFt3m.png",
-        }
+    let [employeeData, setData] = useState(baseData);
+    let [showForm, setShowForm] = useState(false);
+
+    const showFormClicked = () => setShowForm(true)
+
+    function addEmployee(data) {
         setData((prevState) => {
-            return [...prevState, newEmployee];
+            return [...prevState, data];
         })
     }
 
@@ -55,8 +50,8 @@ function EmployeeList() {
 
     return (
         <>
-            <input ref={userInput} type="text"></input>
-            <button onClick={addEmployee} className="button">Add Employee</button>
+            { showForm ? <EmployeeForm onSubmit={addEmployee} /> : null }
+            <button onClick={showFormClicked} className="button">Add Employee</button>
             <div>
                 {
                     employeeData.map((employee, i) => {

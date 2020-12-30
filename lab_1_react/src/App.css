@@ -3,7 +3,8 @@
     height: 200px;
     margin-right: 2rem;
 }
-.EmployeeDiv {
+
+.EmployeeDiv, .EmployeeFormDiv {
     display: flex;
     box-sizing: border-box;
     width: 50%;
@@ -12,6 +13,20 @@
     padding: 1rem;
     background-color: #DEDEDE;
 }
+
+.EmployeeFormDiv {
+    width: 220px;
+    height: 400px;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+}
+
+.EmployeeFormDiv input {
+    margin-bottom: 1rem;
+    width: 100%;
+}
+
 .button {
     background-color: #4CAF50;
     border: none;
