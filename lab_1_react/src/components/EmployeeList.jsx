@@ -23,20 +23,20 @@ function EmployeeList() {
     }
 
     function addUpdateEmployee(data) {
-        if (data.avatar === "") {
+        if (!data.avatar) {
             data.avatar = defaultAvatar;
         }
-        // if index is not set, save as new, otherwise update
-        if (data.index === "") {
-            setData((prevState) => {
-                return [...prevState, data];
-            });   
-        }
-        else {
+        // update if index is set, otherwise save as new
+        if (data.index) {
             setData((prevState) => {
                 const prevStateCopy = [...prevState];    
                 prevStateCopy[data.index] = data;
-                return [...prevStateCopy];
+                return prevStateCopy;
+            });               
+        }
+        else {
+            setData((prevState) => {
+                return [...prevState, data];
             });
         }
         showFormToggle();
@@ -46,7 +46,7 @@ function EmployeeList() {
         setData((prevState) => {
             const prevStateCopy = [...prevState];    
             prevStateCopy.splice(index, 1);
-            return [...prevStateCopy];
+            return prevStateCopy;
         });
     }
 
