@@ -17,9 +17,11 @@
 .EmployeeFormDiv {
     width: 220px;
     height: 400px;
-    position: absolute;
     left: 50%;
+    position: fixed;
     top: 50%;
+    transform: translateY(-50%);
+    z-index: 2;
 }
 
 .EmployeeFormDiv input {
@@ -38,4 +40,14 @@
 
 .employeesList {
     list-style: none;
+}
+
+.exit {
+    float: right;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.blur div:not(.EmployeeFormDiv) {
+    filter: blur(3px); 
 }

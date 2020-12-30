@@ -28,13 +28,18 @@ function EmployeeList() {
 
     let [employeeData, setData] = useState(baseData);
     let [showForm, setShowForm] = useState(false);
+    let [blur, setBlur] = useState("");
 
-    const showFormClicked = () => setShowForm(true)
+    const showFormToggle = () => {
+        setShowForm(!showForm);
+        blur === "" ? setBlur("blur") : setBlur("");
+    }
 
     function addEmployee(data) {
         setData((prevState) => {
             return [...prevState, data];
         })
+        showFormToggle();
     }
 
     useEffect(() => {
@@ -49,9 +54,9 @@ function EmployeeList() {
     }, [employeeData]);
 
     return (
-        <>
-            { showForm ? <EmployeeForm onSubmit={addEmployee} /> : null }
-            <button onClick={showFormClicked} className="button">Add Employee</button>
+        <div className={blur}>
+            { showForm ? <EmployeeForm onSubmit={addEmployee} onExit={showFormToggle} /> : null }
+            <button onClick={showFormToggle} className="button">Add Employee</button>
             <div>
                 {
                     employeeData.map((employee, i) => {
@@ -59,7 +64,7 @@ function EmployeeList() {
                     })
                 }
             </div>
-        </>
+        </div>
     );
 }
 
