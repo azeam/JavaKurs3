@@ -1,3 +1,5 @@
+export const employeeForm = ["name", "email", "phone", "skills", "avatar"];
+
 export const defaultAvatar = "https://i.imgur.com/Q9qFt3m.png";
 
 export const baseData = [{

@@ -7,18 +7,18 @@ function EmployeeList() {
     let [employeeData, setData] = useState(baseData);
     let [showForm, setShowForm] = useState(false);
     let [blur, setBlur] = useState("");
-    let [oldEmployee, setOldEmployee] = useState(null);
+    let [oldEmployee, setOldEmployee] = useState();
 
     function showFormToggle(data, index) {
         setShowForm(!showForm);
         blur === "" ? setBlur("blur") : setBlur("");   
         // set data to pass to form if editing, add index to object
-        if (data && index !== undefined) {
+        if (data && index !== undefined) { // needs undefined check because 0 is treated as false if omitted
             data["index"] = index;
             setOldEmployee(data);    
         }
         else {
-            setOldEmployee(null);
+            setOldEmployee();
         }
     }
 
@@ -66,14 +66,12 @@ function EmployeeList() {
     return (
         <div className={blur}>
             { showForm ? <EmployeeForm data={oldEmployee} onSubmit={addUpdateEmployee} onExit={showFormToggle} /> : null }
-            <button onClick={() => showFormToggle(null)} className="button">Add Employee</button>
-            <div>
-                {
-                    employeeData.map((employee, i) => {
-                        return <Employee key={i} employeeData={employee} onEdit={() => showFormToggle(employee, i)} onDelete={() => deleteEmployee(i)} />;
-                    })
-                }
-            </div>
+            <button onClick={showFormToggle} className="button">Add Employee</button>
+            {
+                employeeData.map((employee, i) => {
+                    return <Employee key={i} employeeData={employee} onEdit={() => showFormToggle(employee, i)} onDelete={() => deleteEmployee(i)} />;
+                })
+            }
         </div>
     );
 }
