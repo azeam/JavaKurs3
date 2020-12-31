@@ -1,8 +1,6 @@
-function Input(props) {
-    function cap(label) {
-        return label.charAt(0).toUpperCase() + label.slice(1) + ":";
-    }
+import { cap } from "../helpers/Format";
 
+function Input(props) {
     return (
         <>
             <label>{cap(props.data)}<br />

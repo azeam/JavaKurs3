@@ -1,13 +1,14 @@
 import Employee from "./Employee";
 import EmployeeForm from "./EmployeeForm";
 import { useState, useEffect } from "react";
-import { defaultAvatar, baseData } from "../basedata/BaseData";
+import { defaultAvatar, baseData, employeeFormInputs } from "../basedata/BaseData";
 
 function EmployeeList() {
     let [employeeData, setData] = useState(baseData);
     let [showForm, setShowForm] = useState(false);
     let [blur, setBlur] = useState("");
     let [oldEmployee, setOldEmployee] = useState();
+    let [submitValue, setSubmitValue] = useState();
 
     function showFormToggle(data, index) {
         setShowForm(!showForm);
@@ -15,10 +16,12 @@ function EmployeeList() {
         // set data to pass to form if editing, add index to object
         if (data && index !== undefined) { // needs undefined check because 0 is treated as false if omitted
             data["index"] = index;
-            setOldEmployee(data);    
+            setOldEmployee(data); 
+            setSubmitValue("Update");   
         }
         else {
             setOldEmployee();
+            setSubmitValue("Save");
         }
     }
 
@@ -65,11 +68,27 @@ function EmployeeList() {
 
     return (
         <div className={blur}>
-            { showForm ? <EmployeeForm data={oldEmployee} onSubmit={addUpdateEmployee} onExit={showFormToggle} /> : null }
+            { showForm ? <EmployeeForm 
+                            className="EmployeeFormDiv" 
+                            data={oldEmployee} 
+                            inputs={employeeFormInputs} 
+                            onSubmit={addUpdateEmployee} 
+                            onExit={showFormToggle}
+                            buttonValue={submitValue}
+                            /> 
+                        : null }
             <button onClick={showFormToggle} className="button">Add Employee</button>
             {
                 employeeData.map((employee, i) => {
-                    return <Employee key={i} employeeData={employee} onEdit={() => showFormToggle(employee, i)} onDelete={() => deleteEmployee(i)} />;
+                    return <Employee 
+                            divClass="EmployeeDiv" 
+                            ulClass="employeesList" 
+                            imgClass="avatar"
+                            key={i} 
+                            data={{name: employee.name, email: employee.email, phone: employee.phone, skills: employee.skills}} 
+                            img={employee.avatar}
+                            onEdit={() => showFormToggle(employee, i)} 
+                            onDelete={() => deleteEmployee(i)} />;
                 })
             }
         </div>
